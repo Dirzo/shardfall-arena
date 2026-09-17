@@ -1,0 +1,8 @@
+services:
+  - type: web
+    name: shardfall-online
+    env: node
+    plan: free
+    buildCommand: node build.mjs
+    startCommand: node server.mjs
+    healthCheckPath: /health
