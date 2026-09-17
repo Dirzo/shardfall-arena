@@ -11,7 +11,7 @@ const net = read(path.join(here, 'net_client.js'));
 /* Bake in a server address for pages hosted somewhere else:
    node build.mjs --server wss://your-app.onrender.com            */
 const arg = process.argv.find(a => a.startsWith('--server'));
-const server = (arg && (arg.split('=')[1] || process.argv[process.argv.indexOf(arg) + 1])) || process.env.SHARDFALL_SERVER || '';
+const server = (arg && (arg.split('=')[1] || process.argv[process.argv.indexOf(arg) + 1])) || process.env.SHARDFALL_SERVER || 'https://shardfall-online-zrs2.onrender.com';
 const cfg = server ? `<script>const SHARDFALL_SERVER = ${JSON.stringify(server)};</script>\n` : '';
 const html = `<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
