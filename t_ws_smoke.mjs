@@ -44,8 +44,8 @@ function decodeServerFrame(buf) {
 }
 
 const socket = net.createConnection({ host: HOST, port: PORT });
-socket.setTimeout(5000);
 const key = crypto.randomBytes(16).toString('base64');
+const absoluteTimeout = setTimeout(() => finish(new Error('Timed out waiting for lobby response')), 5000);
 let phase = 'handshake';
 let buf = Buffer.alloc(0);
 let done = false;
@@ -53,13 +53,14 @@ let done = false;
 function finish(err) {
   if (done) return;
   done = true;
-  try { socket.end(); } catch {}
+  clearTimeout(absoluteTimeout);
+  try { socket.destroy(); } catch {}
   if (err) {
     console.error('WS SMOKE FAIL:', err.message || err);
-    process.exitCode = 1;
-  } else {
-    console.log('WS SMOKE PASS: create-room lobby received');
+    process.exit(1);
   }
+  console.log('WS SMOKE PASS: create-room lobby received');
+  process.exit(0);
 }
 
 socket.on('connect', () => {
@@ -102,7 +103,6 @@ socket.on('data', chunk => {
   }
 });
 
-socket.on('timeout', () => finish(new Error('Timed out')));
 socket.on('error', err => finish(err));
 socket.on('close', () => {
   if (!done) finish(new Error('Socket closed before lobby response'));
