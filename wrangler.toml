@@ -1,11 +1,12 @@
-# Cloudflare Worker that serves the game page (static assets only).
-# The matches themselves run on a Node server elsewhere — see the README —
-# and the page is told where to find it by the SHARDFALL_SERVER build variable.
+# Shardfall public edge: static assets on Cloudflare, multiplayer on Render.
 name = "shardfall"
 compatibility_date = "2026-09-17"
+main = "./worker.mjs"
 
 [build]
 command = "node build.mjs"
 
 [assets]
 directory = "./public/"
+binding = "ASSETS"
+run_worker_first = ["/ws", "/health"]
