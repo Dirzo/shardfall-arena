@@ -1,0 +1,31 @@
+name: Build check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Build static game
+        run: node build.mjs
+
+      - name: Verify output
+        run: |
+          test -s public/index.html
+          echo "Shardfall Arena build output:"
+          ls -lh public/index.html
