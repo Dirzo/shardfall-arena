@@ -29,3 +29,21 @@ jobs:
           test -s public/index.html
           echo "Shardfall Arena build output:"
           ls -lh public/index.html
+
+      - name: Start multiplayer server
+        run: |
+          node server.mjs > /tmp/shardfall-server.log 2>&1 &
+          echo $! > /tmp/shardfall-server.pid
+          for i in {1..20}; do
+            if curl -fsS http://127.0.0.1:8080/health; then exit 0; fi
+            sleep .25
+          done
+          cat /tmp/shardfall-server.log
+          exit 1
+
+      - name: WebSocket lobby smoke test
+        run: node t_ws_smoke.mjs
+
+      - name: Server log
+        if: always()
+        run: cat /tmp/shardfall-server.log || true
