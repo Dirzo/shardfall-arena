@@ -1,7 +1,7 @@
 # Cloudflare Worker that serves the game page (static assets only).
 # The matches themselves run on a Node server elsewhere — see the README —
 # and the page is told where to find it by the SHARDFALL_SERVER build variable.
-name = "shardfall-arena"
+name = "shardfall"
 compatibility_date = "2026-09-17"
 
 [build]
