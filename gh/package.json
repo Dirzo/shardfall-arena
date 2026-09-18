@@ -1,0 +1,14 @@
+{
+  "name": "shardfall-arena",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Shardfall Arena — a browser 3v3 MOBA, single-player and online",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "build": "node build.mjs",
+    "prestart": "node build.mjs",
+    "start": "node server.mjs",
+    "test": "node t_net3.mjs"
+  }
+}

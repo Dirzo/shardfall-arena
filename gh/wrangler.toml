@@ -1,0 +1,12 @@
+# Shardfall public edge: static assets on Cloudflare, multiplayer on Render.
+name = "shardfall"
+compatibility_date = "2026-09-17"
+main = "./worker.mjs"
+
+[build]
+command = "node build.mjs"
+
+[assets]
+directory = "./public/"
+binding = "ASSETS"
+run_worker_first = ["/ws", "/health"]
